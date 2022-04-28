@@ -30,10 +30,9 @@ def start(meta_ships):
 def shoot(coords, board):
 
     validate_range(coords, board)
+    print(board.occupied_cells)
 
     cell = [coords['x'], coords['y']].__str__()
-
-    print(board.occupied_cells)
 
     if cell not in board.occupied_cells:
 
@@ -41,7 +40,6 @@ def shoot(coords, board):
     
     else:
         target_ship = board.occupied_cells[cell]
-        print(target_ship.status)
         
         if target_ship.status == 'SINK':
 
