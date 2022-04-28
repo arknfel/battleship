@@ -35,12 +35,13 @@ def shot():
         
         # board = pickle.loads(session['board'])
         board = current_app.board
-        
-        # compute outcome after the shot
+
         outcome = shoot(coords, board)
 
+        print(outcome)
+
         # session['board'] = pickle.dumps(board)
-        return jsonify(f'{outcome}'), HTTPStatus.OK
+        return jsonify({"result": f"{outcome}"}), HTTPStatus.OK
 
     except KeyError as e:
         print(e)
@@ -54,7 +55,7 @@ def shot():
 @app.route('/battleship', methods=['DELETE'])
 def delete_battleship_game():
 
-    if current_app.board:
+    if 'board' in current_app.__dir__():
         del current_app.board
 
         return jsonify('Game Deleted'), HTTPStatus.OK

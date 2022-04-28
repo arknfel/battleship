@@ -30,7 +30,6 @@ def start(meta_ships):
 def shoot(coords, board):
 
     validate_range(coords, board)
-    print(board.occupied_cells)
 
     cell = [coords['x'], coords['y']].__str__()
 
@@ -48,9 +47,11 @@ def shoot(coords, board):
 
             return 'HIT'
         
-        elif (cell == target_ship.front or cell == target_ship.rear) \
-            and len(target_ship.cells) > 2:
+        # elif (cell == target_ship.front or cell == target_ship.rear) \
+        #     and len(target_ship.cells) > 2:
         # elif cell == target_ship.rear and len(target_ship.cells) > 2:
+        # elif (cell == target_ship.front or cell == target_ship.rear):
+        elif cell == target_ship.rear:
             target_ship.status = 'SINK'
 
             return 'SINK'
