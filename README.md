@@ -26,9 +26,7 @@ An instance of class `Board` represents a game instance, keeping track of the ga
 
 Instead of having to worry about a whole grid of MxN cells, untill the game gets more complex, we only need to worry about occupied cells and leave it to validators to make sure that the dimentions and coordinates of the ships and shots are within the grid, so that we can safely assume that if a the coordinates of a shot does not match any of the occupied cells, it is surely a missed shot "WATER".  
 
-In case of a need to extend and model all the cells of the grid, the hash-map pattern would still serve us well, we might only need to extend our hash-map to also include empty cells and map them to None. Time and Space complixity will remain the same except that, space comlixity `O(n)`, `n` in this case, will be the total number of the cells in the grid. 
-
-Now, back to the initial concern, the idea is to map each group of occupied cells to the corresponding occupying ship:
+The idea is to map each group of occupied cells to the corresponding occupying ship:
 ```python
 board.occupied_cells = {
     '[2, 1]': ship_instance1,
@@ -37,7 +35,11 @@ board.occupied_cells = {
     ...
 }
 ```
-This will enable us to easily map the shots coordinates to the ships (`O(1)`, `O(n)` time, space complixity respectively, where n is the number of occupied cells), then simply change the ship's condition accordingly, now let us take a look at the `Ship` model:
+This will enable us to easily map the shots coordinates to the ships (`O(1)`, `O(n)` time, space complexity respectively, where n is the number of occupied cells), then simply change the ship's condition accordingly.
+
+In case of a need to extend and model all the cells of the grid, the hash-map pattern would still serve us well, we might only need to extend our hash-map to also include empty cells and map them to None. Time complexity (local_latency) will remain the same for the shot action but space complexity (local_momory) `O(n)`, `n` in this case, will be the total number of the cells in the grid.  
+
+Now let us take a look at the `Ship` model:
 ```python
 class Ship:
 
@@ -63,7 +65,7 @@ class Ship:
 ```
 
 At instantiation, each ship will compute and hash-map the cells it is currently occupying,
-if the ship creation passes all validation, we update the `board.occupied_cells` with the new ship cells right when the ship spawns on the board.
+if the ship creation passes all validations, we update the `board.occupied_cells` with the new ship cells right when the ship spawns on the board.
 
 By that, by the time we have instantiated all ships, our board will have all occupied cells mapped to their ships.  
 <br>
