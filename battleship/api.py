@@ -18,7 +18,7 @@ def create_battleship_game():
         board = start(payload['ships'])
         session['board'] = pickle.dumps(board)
 
-        return jsonify({"msg": "New Game Started"}), HTTPStatus.OK
+        return jsonify('New Game Started'), HTTPStatus.OK
 
     except Exception as e:
         
@@ -45,6 +45,6 @@ def shot():
 def delete_battleship_game():
     if 'board' in session:
         del session['board']
-        return jsonify(f'Game Deleted'), HTTPStatus.OK
+        return jsonify('Game Deleted'), HTTPStatus.OK
 
-    return jsonify(f'No game to delete'), HTTPStatus.OK
+    return jsonify('No game to delete'), HTTPStatus.OK

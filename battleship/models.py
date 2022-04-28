@@ -10,15 +10,14 @@ class Ship:
         self.y = meta['y']
         self.size = meta['size']
         self.direction = meta['direction']
-        self.cells = None
 
         if self.direction == 'H':
 
-            self.cells = {[x, self.y].__str__(): self for x in range(self.x, self.x + self.size + 1)}
+            self.cells = {[x, self.y].__str__(): self for x in range(self.x, self.x + self.size)}
 
         elif self.direction == 'V':
 
-            self.cells = {[self.x, y].__str__(): self for y in range(self.y, self.y + self.size + 1)}
+            self.cells = {[self.x, y].__str__(): self for y in range(self.y, self.y + self.size)}
 
         self.front = list(self.cells.keys())[0]
         self.rear = list(self.cells.keys())[-1]

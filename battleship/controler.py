@@ -34,12 +34,15 @@ def shoot(coords, board):
 
     cell = [coords['x'], coords['y']].__str__()
 
+    print(board.occupied_cells)
+
     if cell not in board.occupied_cells:
 
         return 'WATER'
     
     else:
         target_ship = board.occupied_cells[cell]
+        print(target_ship.status)
         
         if target_ship.status == 'SINK':
 
@@ -53,6 +56,12 @@ def shoot(coords, board):
             target_ship.status = 'SINK'
 
             return 'SINK'
+        
+        else:
+            for cell in target_ship.cells:
+                del board.occupied_cells[cell]
+            
+            return 'HIT'
 
 
 
