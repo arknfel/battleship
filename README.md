@@ -20,6 +20,7 @@ class Board:
 
     def spawn(self, ship):
         self.occupied_cells.update(ship.cells)
+        return self
 ```
 An instance of class `Board` represents a game instance, keeping track of the game state, modifying the board instance per event/iteration (depending on the game engine design), will represent the game state changing vs time.
 
@@ -37,7 +38,7 @@ This will enable us to easily map the shots coordinates to the ships (`O(1)`, `O
 ```python
 class Ship:
 
-    status = True
+    status = None
 
     def __init__(self, meta):
 
