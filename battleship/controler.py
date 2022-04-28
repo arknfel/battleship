@@ -8,7 +8,6 @@ from .middlewares.validators import (
 from battleship.settings import SETTINGS
 
 
-
 def start(meta_ships):
 
     board = Board(SETTINGS['xrange'], SETTINGS['yrange'])
@@ -51,8 +50,9 @@ def shoot(coords, board):
 
             return 'HIT'
         
-        elif cell == target_ship.front or cell == target_ship.rear:
-
+        elif (cell == target_ship.front or cell == target_ship.rear) \
+            and len(target_ship.cells) > 2:
+        # elif cell == target_ship.rear and len(target_ship.cells) > 2:
             target_ship.status = 'SINK'
 
             return 'SINK'
