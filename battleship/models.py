@@ -26,13 +26,10 @@ class Ship:
 
 class Board:
 
-    def __init__(self, x_range, y_range):
+    def __init__(self, xrange, yrange):
         
-        self.x_range = x_range
-        self.y_range = y_range
-
-        # self.ships = None
-        # self.meta_ships = meta_ships
+        self.xrange = xrange
+        self.yrange = yrange
 
         self.occupied_cells = {}
 
@@ -40,4 +37,8 @@ class Board:
     def spawn(self, ship):
         
         self.occupied_cells.update(ship.cells)
+
+    
+    def reset(self):
+        self.occupied_cells.clear()
 

@@ -1,33 +1,61 @@
-from models import Board, Ship
-from middlewares.validators import validate_coords, validate_position
+from battleship.models import Board, Ship
+from .middlewares.validators import (
+    validate_range,
+    validate_direction,
+    validate_dims,
+    validate_position
+)
+from battleship.settings import SETTINGS
 
 
-def start(SETTINGS, meta_ships):
 
-    board = Board(SETTINGS.x_range, SETTINGS.y_range, meta_ships)
+def start(meta_ships):
+
+    board = Board(SETTINGS['xrange'], SETTINGS['yrange'])
     
     for meta_ship in meta_ships:
 
-        validate_coords(meta_ship, board)
+        validate_range(meta_ship, board)
+        validate_direction(meta_ship)
+        validate_dims(meta_ship, board)
 
-        ship = Ship(
-            [meta_ship['x'], meta_ship['y']],
-            meta_ship['size'],
-            meta_ship['direction']
-        )
-   
+        ship = Ship(meta_ship)
+
         validate_position(ship, board.occupied_cells)
 
         board.spawn(ship)
-    
+
     return board
 
 
 def shoot(coords, board):
 
-    if [coords['x'], coords['y']].__str__() not in board.occupied_cells:
+    validate_range(coords, board)
+
+    cell = [coords['x'], coords['y']].__str__()
+
+    if cell not in board.occupied_cells:
+
         return 'WATER'
     
-    
+    else:
+        target_ship = board.occupied_cells[cell]
+        
+        if target_ship.status == 'SINK':
+
+            for cell in target_ship.cells:
+                del board.occupied_cells[cell]
+
+            return 'HIT'
+        
+        elif cell == target_ship.front or cell == target_ship.rear:
+
+            target_ship.status = 'SINK'
+
+            return 'SINK'
+
+
+
+
     
 
