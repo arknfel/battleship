@@ -1,202 +1,108 @@
-# Battle Ship
+# Battleship
 
-## NOTE: developer-notes.md was added at ./  
-
-This repo is the start-up point to submit the battleship game exercise for
-Profit Tools. It's recommended you read all the instructions before you start
-the exercise.
-
-The exercise will be timed to 24 hours starting at the time you gain access to
-the repo. The solution should be submitted through a pull request into the repo.
-
-## The Goal
-
-The goal of this exercise is to evaluate your object oriented programming skills.
-The solution should have an adequate object oriented design, and demonstrate 
-good separation of concerns.
-
-There are tests setup to validate the requirements of the exercise. Below, there
-are instructions on how to run them, in case you want to validate your work
-before submitting the exercise.
-
-The results from these tests are not the main factor to evaluate the solution. 
-Instead, the code implementation and design will be evaluated, but it doesn't
-hurt that the tests pass.
-
-Unit tests are an important factor for our projects. Writting unit tests for the
-solution is a big plus. The unit tests should be written in the `test` folder, 
-and can be executed using the `bolt ut` command. 
-
-You can run the unit tests and have them monitor changes using the `bolt ct` 
-command. The tests will be executed every time changes are saved.
-
-## Setup the Development Environment
-
-This exercise should be completed using Python 3.6 or higher. Solutions that 
-don't work in that version of Python will not be accepted. Make sure you have
-the right Python version.
-
-Start by cloning the repo or creating your own fork. Once you've clone or forked 
-the repo and downloaded all the source locally, you can install the necessary 
-requirements by running:
-
-```console
-$ pip install -r requirements.txt
+To clone repo:
+```bash
+git clone https://github.com/arknfel/battleship.git
 ```
 
-There are some commands that you can run to help you during development:
+## Summary
 
-* `bolt ut` will run the unit test located in the test folder. The project uses
-nose to run the tests, but the tests can be implemented with the `unittest`
-module in Python.
-* `bolt ct` will run the unit tests and wait for file changes. You can use the
-command to follow TDD during development. The command can be killed with `<ctrl+c>`.
-* `bolt ft` will run the feature tests. The feature tests validate the requirements
-of the exercise, so you can use them to verify that your code works against the
-specification.
+The main idea of this implementation is the hash-map attribute `occupied_cells` of class `Board`:
 
-## The Problem
+```python
+class Board:
 
-The exercise is to implement the Battleship Game from the perspective of a
-single user. The game exposes and endpoint `http://localhost:/5000/battleship`
-that supports three HTTP methods:
+    def __init__(self, xrange, yrange):
+        
+        self.xrange = xrange
+        self.yrange = yrange
+        self.occupied_cells = {}
 
-* `POST` Creates a new game. The payload contains the ships for the game (more
-on this below).
-* `PUT` Used to specify a shot against the game. The payload contains the 
-coordinates for the shot.
-* `DELETE` Deletes the current game.
+    def spawn(self, ship):
+        self.occupied_cells.update(ship.cells)
+```
+An instance of class `Board` represents a game instance, keeping track of the game state, modifying the board instance per event/iteration (depending on the game engine design), will represent the game state changing vs time.
 
-All the functions for the endpoints have already been provided in the
-`/battleship/api.py` file. You need to fill the implementation.
+Instead of having to worry about a whole grid of MxN cells, untill the game gets more complex, we only need to worry about occupied cells and leave it to validators to make sure that the dimentions and coordinates of the ships and shots are within the grid, so that we can safely assume that if a shot's coordinates does not match any of the occupied cells, it is surely a missed shot "WATER".  
 
-You should add your model and business logic classes into a separate module(s).
-The architecture will also be evaluated.
-
-### Creating a New Game
-
-A new game will be created by a `POST` request to the endpoint. The payload will
-contain the definition of where the ships are located. The payload will look
-as follows:
-
-```json
-{
-    "ships": [
-        {
-            "x": 2,
-            "y": 1,
-            "size": 4,
-            "direction": "H"
-        },
-        {
-            "x": 7,
-            "y": 4,
-            "size": 3,
-            "direction": "V"
-        },
-        {
-            "x": 3,
-            "y": 5,
-            "size": 2,
-            "direction": "V"
-        },
-        {
-            "x": 6,
-            "y": 8,
-            "size": 1,
-            "direction": "H"
-        }
-    ]
+The idea here is to map each group of occupied cells to the corresponding occupying ship:
+```python
+board.occupied_cells = {
+    '[1, 2]': ship_instance1,
+    '[4, 2]': ship_instance2
+    ...
 }
 ```
+This will enable us to easily map the shots coordinates to the ships (`O(1)`, `O(n)` time, space complixity respectively, where n is the number of occupied cells), then simply change the ship's condition accordingly, now let us take a look at the `Ship` model:
+```python
+class Ship:
 
-The game board must have a 10x10 dimension. The indices to the board are 0 based
-from 0 to 9. The payload indicates the location of the shipment (its origin), 
-its size, and directiion. Ships are located along the horizontal or vertical 
-axis, and will never be located diagonally.
+    status = True
 
-The sample payload above shows 4 ships added to the board. The first one starts
-at coordinate (2,1) with a size of 4 (meaning 4 squares) and a horizontal
-direction. The `direction` parameter will have a value of `H` for horizontal and
-`V` for vertical.
+    def __init__(self, meta):
 
-The endpoint should create a new game based on the specified payload. The game
-can be kept in a global variable, so it becomes available for playing in
-subsequent requests.
+        self.x = meta['x']
+        self.y = meta['y']
+        self.size = meta['size']
+        self.direction = meta['direction']
 
-You don't need to consider multiple threads, games, or players. All the scenarios
-will be run as a single player in a single threaded application. And they will
-be executed synchronously.
+        if self.direction == 'H':
 
-The following scenarios should be considered:
+            self.cells = {[x, self.y].__str__(): self for x in range(self.x, self.x + self.size)}
 
-**A correct game definition is sent in the payload**. The endpoint should create
-the game and return OK.
+        elif self.direction == 'V':
 
-**At least one of the ships falls beyond the size of the board**. The endpoint 
-should detect the problem and return BAD REQUESTS. As an example, a ship with
-an origin `x=8`, `y=1`, `size=4`, and `direction=H` falls out of the board.
-Remember that coordinates are 0 based.
+            self.cells = {[self.x, y].__str__(): self for y in range(self.y, self.y + self.size)}
 
-**Two shipments overlap. Shipments should not overlap**. If they do, the endpoint
-should detect the problem and return BAD REQUEST. The following shipments overlap:
-
-```json
-{
-    "ships": [
-        {
-            "x": 5,
-            "y": 5,
-            "size": 4,
-            "direction": "H"
-        },
-        {
-            "x": 7,
-            "y": 4,
-            "size": 3,
-            "direction": "V"
-        }
-    ]
-}
+        self.front = list(self.cells.keys())[0]
+        self.rear = list(self.cells.keys())[-1]
 ```
 
-**NOTE**: Creating a game overwrites any previously created game.
+At instantiation, each ship will compute and hash-map the cells it is currently occupying,
+if the ship creation passes all validation, we update the `board.occupied_cells` with the new ship cells right when the ship spawns on the board.
 
-### Playing the Game
+By that, by the time we have instantiated all ships, our board will have all occupied cells mapped to their ships.  
+<br>
+## Storing The Board Object
+I used flask variable `current_app` to store the board object globaly per flask-application instance and across requests.
 
-The game is played by sending `PUT` requests to the endpoint. The payload will
-contain the coordinates of a shot, and it'll look as follows:
+The `session` flask variable can also be used instead instead or with `current_app` to preserve the board state per sessions and requests regardless current flask application instance, since it utilizes cookies as a mean for caching.
 
-```json
+We will need to configure a secret key to the flask app: `app.config['SECRET_KEY'] = f'{my_strong_secret}'`  
+
+serialize the board: `session['board'] = pickle.dumps(board)`, deserialize it: `board = pickle.loads(session['board'])` with each game changing event, and `del session['board']` if the delete-game-method was invoked. 
+
+<hr>
+
+
+## Important Note
+
+- I was able to pass all the feature-tests but one: `features/play_battelship.feature:20  Can sink a ship`
+- The scenario is trying to hit the same ship 3 times, while expecting a result/response of `'SINK'` which is not feasible, considering the rules of the game.
+- ship:
+```python
 {
-    "x": 5,
-    "y": 4
+    "x": 7,
+    "y": 4,
+    "size": 3,
+    "direction": "V"
 }
 ```
-
-The endpoint should return a response payload indicating the result:
-
-```json
-{
-    "result": "WATER"
-}
+- steps:
+```text
+Scenario: Can sink a ship                              # features/play_battelship.feature:20
+    Given a request url ${BASE_URL}/battleship           # dev/lib/site-packages/behave_restful/lang/_given_steps.py:7
+    Given a shot at 7,4                                  # features/steps/battleship_steps.py:5
+    And a shot at 7,5                                    # features/steps/battleship_steps.py:5
+    And a shot at 7,6                                    # features/steps/battleship_steps.py:5
+    Then the response status is OK                       # dev/lib/site-packages/behave_restful/lang/_then_steps.py:7
+    And the response json at $.result is equal to "SINK" # dev/lib/site-packages/behave_restful/lang/_then_steps.py:23
+      Assertion Failed: Expected <WATER> to be equal to <SINK>, but was not.
 ```
+- I am getting the correct result after 3 different shots hit the ship, `'WATER'`, however the test seem to expect the result to be `'SINK'`. Please review this feature-test.  
 
-The result value should follow these rules:
+<br>
+<hr>
 
-* A missing shot should return a result of "WATER".
-* A hit shot should return a result of "HIT".
-* A hit for the last piece of a ship should return "SINK"
-* Hitting an already sinked ship should return "HIT"
-
-All these responses should return a status of OK.
-
-A shot that falls outside of the board should return a status of BAD REQUEST.
-As an example `x=10` and `y=7` falls outside of the board.
-
-### Deleting a Game
-
-A game can be deleted by sending a `DELETE` request to the endpoint. Deleting
-a game allows to start the game from scratch.
-
-Good luck!
+### Thank you
+Mostafa Mohamed
