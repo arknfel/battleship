@@ -29,7 +29,8 @@ Instead of having to worry about a whole grid of MxN cells, untill the game gets
 The idea here is to map each group of occupied cells to the corresponding occupying ship:
 ```python
 board.occupied_cells = {
-    '[1, 2]': ship_instance1,
+    '[2, 1]': ship_instance1,
+    '[3, 1]': ship_instance1,
     '[4, 2]': ship_instance2
     ...
 }
