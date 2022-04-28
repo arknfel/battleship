@@ -78,8 +78,9 @@ serialize the board: `session['board'] = pickle.dumps(board)`, deserialize it: `
 ## Important Note
 
 - I was able to pass all the feature-tests but one: `features/play_battelship.feature:20  Can sink a ship`
-- The scenario is trying to hit the same ship 3 times, while expecting a result/response of `'SINK'` which is not feasible, considering the rules of the game.
-- ship_meta:
+- The scenario is trying to hit the same ship 3 times, while expecting a result/response of `'SINK'` which is not feasible, considering the rules of the game.  
+
+ship_meta:
 ```python
 {
     "x": 7,
@@ -88,7 +89,7 @@ serialize the board: `session['board'] = pickle.dumps(board)`, deserialize it: `
     "direction": "V"
 }
 ```
-- steps:
+steps:
 ```text
 Scenario: Can sink a ship                              # features/play_battelship.feature:20
     Given a request url ${BASE_URL}/battleship           # dev/lib/site-packages/behave_restful/lang/_given_steps.py:7
@@ -99,7 +100,7 @@ Scenario: Can sink a ship                              # features/play_battelshi
     And the response json at $.result is equal to "SINK" # dev/lib/site-packages/behave_restful/lang/_then_steps.py:23
       Assertion Failed: Expected <WATER> to be equal to <SINK>, but was not.
 ```
-- I am getting the correct result after 3 different shots hit the ship, `'WATER'`, however the test seem to expect the result to be `'SINK'`. Please review this feature-test.  
+- In e2e multiple tests, I got the correct result for each of the 3 different shots that hit the ship, `'WATER'`, however the test seem to expect the result to be `'SINK'`. Please review this feature-test.  
 
 <br>
 <hr>
