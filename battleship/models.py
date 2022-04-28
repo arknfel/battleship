@@ -2,7 +2,7 @@
 
 class Ship:
 
-    status = True
+    status = None
 
     def __init__(self, meta):
 
@@ -29,15 +29,11 @@ class Board:
         
         self.xrange = xrange
         self.yrange = yrange
-
         self.occupied_cells = {}
 
-
     def spawn(self, ship):
-        
         self.occupied_cells.update(ship.cells)
 
-    
-    def reset(self):
-        self.occupied_cells.clear()
+    # def reset(self):
+    #     self.occupied_cells.clear()
 
