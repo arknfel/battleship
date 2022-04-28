@@ -79,7 +79,7 @@ serialize the board: `session['board'] = pickle.dumps(board)`, deserialize it: `
 
 - I was able to pass all the feature-tests but one: `features/play_battelship.feature:20  Can sink a ship`
 - The scenario is trying to hit the same ship 3 times, while expecting a result/response of `'SINK'` which is not feasible, considering the rules of the game.
-- ship:
+- ship_meta:
 ```python
 {
     "x": 7,
