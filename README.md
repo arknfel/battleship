@@ -67,7 +67,7 @@ By that, by the time we have instantiated all ships, our board will have all occ
 ## Storing The Board Object
 I used flask variable `current_app` to store the board object globaly per flask-application instance and across requests.
 
-The `session` flask variable can also be used instead instead or with `current_app` to preserve the board state per sessions and requests regardless current flask application instance, since it utilizes cookies as a mean for caching.
+The `session` flask variable can also be used instead instead or with `current_app` to preserve the board state per sessions and requests regardless of the current flask application instance, since it utilizes cookies as a mean for caching.
 
 We will need to configure a secret key to the flask app: `app.config['SECRET_KEY'] = f'{my_strong_secret}'`  
 
