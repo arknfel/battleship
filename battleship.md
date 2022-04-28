@@ -1,4 +1,4 @@
-# Battleship Solution 
+# Battle Ship 
 
 This repo is the start-up point to submit the battleship game exercise for
 Profit Tools. It's recommended you read all the instructions before you start

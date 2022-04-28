@@ -1,4 +1,4 @@
-# Battleship
+# Battleship Solution
 
 To clone repo:
 ```bash
