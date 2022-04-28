@@ -23,7 +23,7 @@ board.occupied_cells = {
     '[4, 2]': ship_instance2
 }
 ```
-This will enable us to easily map the shots coordinates to the ships with `O(1)` time complixity and simply change the ship condition accordingly, now let us take a look at the Ship model:
+This will enable us to easily map the shots coordinates to the ships ( `O(1)` time complixity ), then simply change the ship's condition accordingly, now let us take a look at the Ship model:
 ```python
 class Ship:
 
@@ -80,4 +80,9 @@ Scenario: Can sink a ship                              # features/play_battelshi
     And the response json at $.result is equal to "SINK" # dev/lib/site-packages/behave_restful/lang/_then_steps.py:23
       Assertion Failed: Expected <WATER> to be equal to <SINK>, but was not.
 ```
-- I am getting the correct result after 3 different shots hit the ship, `'WATER'`, however the test seem to expect the result to be `'SINK'`. Please review this feature-test.
+- I am getting the correct result after 3 different shots hit the ship, `'WATER'`, however the test seem to expect the result to be `'SINK'`. Please review this feature-test.  
+
+<br>
+<hr>
+
+### Thank you
