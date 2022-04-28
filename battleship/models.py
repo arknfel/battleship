@@ -33,6 +33,7 @@ class Board:
 
     def spawn(self, ship):
         self.occupied_cells.update(ship.cells)
+        return self
 
     # def reset(self):
     #     self.occupied_cells.clear()
