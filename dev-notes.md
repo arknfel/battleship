@@ -16,7 +16,7 @@ class Board:
 ```
 An instance of class board represents a game instance, keeping track of the game state, modifying the board istance per action/event/iteration, will represent the game state as it will be changing.
 
-Instead of having to worry about the MxN cells, untill the game gets more complex we only need to worry about occupied cells and leave it to validators to make sure that shots are within the grid. We can safly assume that if a shot's coordinates does not match any of the occupied cells, it is surely a `'WATER'` shot.
+Instead of having to worry about a whole grid of MxN cells, untill the game gets more complex, we only need to worry about occupied cells and leave it to validators to make sure that shots are within the grid. We can safly assume that if a shot's coordinates does not match any of the occupied cells, it is surely a `'WATER'` shot.
 
 The idea here is to map each group of cells to the corresponding occupying ship:
 ```python
