@@ -4,8 +4,9 @@ To clone repo:
 ```bash
 git clone https://github.com/arknfel/battleship.git
 ```  
-In this implementation I used `Python 3.10.2`
-and `pip install -r requirements.txt`
+In this implementation I used:
+`Python 3.10.2`  
+`pip install -r requirements.txt`
 
 ## Summary
 
