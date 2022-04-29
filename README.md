@@ -106,7 +106,7 @@ Scenario: Can sink a ship                              # features/play_battelshi
     And the response json at $.result is equal to "SINK" # dev/lib/site-packages/behave_restful/lang/_then_steps.py:23
       Assertion Failed: Expected <WATER> to be equal to <SINK>, but was not.
 ```
-- In e2e multiple tests, I got the correct result for each of the 3 different shots that hit the ship, `'SINK'`, `'HIT'`, `'WATER'`, however the test seem to expect the result of the final shot to be `'SINK'`. Please review this feature-test and let me know if I am mistaken.  
+- In multiple e2e tests, I got the correct result for each of the 3 different shots that hit the ship, `'SINK'`, `'HIT'`, `'WATER'`, however the test seem to expect the result of the final shot to be `'SINK'`. Please review this feature-test and let me know if I am mistaken.  
 
 <br>
 <hr>
