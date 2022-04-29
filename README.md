@@ -65,7 +65,7 @@ class Ship:
 ```
 
 At instantiation, each ship will compute and hash-map the cells it is currently occupying,
-if the ship creation passes all validations, we update the `board.occupied_cells` with the new ship cells right when the cells of the new spawned ship, this event is equivelant to the ship spawning on the board.
+if the ship creation passes all validations, we update the `board.occupied_cells` dict with the cells of the new ship, this event is equivelant to the ship spawning on the board.
 
 By that, by the time we have instantiated all ships, our board will have all occupied cells mapped to their ships.  
 <br>
