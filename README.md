@@ -6,7 +6,7 @@ git clone https://github.com/arknfel/battleship.git
 ```  
 In this implementation I used:  
 `Python 3.10.2`  
-`pip install -r requirements.txt`
+`pip install -r requirements.txt` to install required dependancies.
 
 ## Summary
 
