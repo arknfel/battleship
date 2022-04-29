@@ -25,7 +25,7 @@ class Board:
         self.occupied_cells.update(ship.cells)
         return self
 ```
-An instance of class `Board` represents a game instance, keeping track of the game state, modifying the board instance per event/iteration (depending on the game engine design), will represent the game state as it changes vs time.
+An instance of class `Board` represents a game instance that keeps track of the game state. Modifying the board instance per event/iteration (depending on the game engine design), will represent the game state as it changes vs time.
 
 Instead of having to worry about a whole grid of MxN cells, untill the game gets more complex, we only need to worry about occupied cells and leave it to validators to make sure that the dimentions and coordinates of the ships and shots are within the grid, so that we can safely assume that if a the coordinates of a shot does not match any of the occupied cells, it is surely a missed shot "WATER".  
 
