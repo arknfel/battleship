@@ -70,7 +70,6 @@ class Ship:
         self.front = list(self.cells.keys())[0]
         self.rear = list(self.cells.keys())[-1]
 ```
-
 For each ship meta-data, at instantiation, the ship will compute and hash-map the cells that it is occupying then the controler will look-up the cells of the ship vs board.occupied_cells to validate that no ship-dimension overlapping occures.
 If the ship creation process passes all validations, the controler will instruct the `board` to update its `board.occupied_cells` dict with the cells of the new ship, this event is equivelant to the ship spawning on the board.
 
