@@ -65,14 +65,14 @@ class Ship:
 ```
 
 At instantiation, each ship will compute and hash-map the cells it is currently occupying,
-if the ship creation passes all validations, we update the `board.occupied_cells` with the new ship cells right when the ship spawns on the board.
+if the ship creation passes all validations, we update the `board.occupied_cells` with the new ship cells right when the cells of the new spawned ship, this event is equivelant to the ship spawning on the board.
 
 By that, by the time we have instantiated all ships, our board will have all occupied cells mapped to their ships.  
 <br>
 ## Storing The Board Object
 I used flask variable `current_app` to store the board object globaly per flask-application instance and across requests.
 
-The `session` flask variable can also be used instead instead or with `current_app` to preserve the board state per sessions and requests regardless of the current flask application instance, since it utilizes cookies as a mean for caching.
+The `session` flask variable can also be used instead or with `current_app` to preserve the board state per sessions and requests regardless of the current flask application instance, since it utilizes cookies as a mean for caching.
 
 We will need to configure a secret key to the flask app: `app.config['SECRET_KEY'] = f'{my_strong_secret}'`  
 
