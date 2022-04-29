@@ -38,9 +38,11 @@ board.occupied_cells = {
     ...
 }
 ```
-This will enable us to easily map the shots coordinates to the ships, then simply change the ship's status accordingly. (`O(1)`, `O(n)` time, space complexity respectively, where `n` is the number of occupied cells).  
+This will enable us to easily map the shots coordinates to the ships, then simply change the ship's status accordingly.  
+(`O(1)`, `O(n)` time, space complexity respectively, where `n` is the number of occupied cells).  
 
-The hash-map will also greatly help during spawning the ships in making sure that none of the ships dimentions are overlapping. (`O(1)`, `O(n)` time, space complexity respectively, where `n` is the number of cached cells: current board.occupied_cells + new_ship.cells)
+The hash-map will also greatly help during spawning the ships in making sure that none of the ships dimentions are overlapping. More on this part, comming up later.  
+(`O(1)`, `O(n)` time, space complexity respectively, where `n` is the number of cached cells: current board.occupied_cells + new_ship.cells)
 
 In case of a need to extend and model all the cells of the grid, the hash-map pattern would still serve us well, we might only need to extend our hash-map to also include empty cells and map them to None. Time complexity (local_latency) will remain the same for the shot action but space complexity (local_memory) `O(n)`, `n` in this case, will be the total number of the cells in the grid.  
 
