@@ -34,7 +34,7 @@ The idea is to map each group of occupied cells to the corresponding occupying s
 board.occupied_cells = {
     '[2, 1]': ship_instance1,
     '[3, 1]': ship_instance1,
-    '[4, 2]': ship_instance2
+    '[4, 2]': ship_instance2,
     ...
 }
 ```
@@ -71,8 +71,8 @@ class Ship:
         self.rear = list(self.cells.keys())[-1]
 ```
 
-For each ship meta-data, the controler will compute and hash-map the cells that the ship is to occupy, while doing so, the controler will also look-up the cells of the ship vs board.occupied_cells to ensure that no ship-dimension overlapping occures.
-if the ship creation passes all validations, we update the `board.occupied_cells` dict with the cells of the new ship, this event is equivelant to the ship spawning on the board.
+For each ship meta-data, at instantiation, the ship will compute and hash-map the cells that it is occupying then the controler will look-up the cells of the ship vs board.occupied_cells to validate that no ship-dimension overlapping occures.
+If the ship creation process passes all validations, the controler will instruct the `board` to update its `board.occupied_cells` dict with the cells of the new ship, this event is equivelant to the ship spawning on the board.
 
 By that, by the time we have instantiated all ships, our board will have all occupied cells mapped to their ships.  
 <br>
