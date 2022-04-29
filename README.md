@@ -38,7 +38,9 @@ board.occupied_cells = {
     ...
 }
 ```
-This will enable us to easily map the shots coordinates to the ships (`O(1)`, `O(n)` time, space complexity respectively, where n is the number of occupied cells), then simply change the ship's condition accordingly.
+This will enable us to easily map the shots coordinates to the ships, then simply change the ship's status accordingly. (`O(1)`, `O(n)` time, space complexity respectively, where `n` is the number of occupied cells).  
+
+The hash-map will also greatly help during spawning the ships in making sure that none of the ships dimentions are overlapping. (`O(1)`, `O(n)` time, space complexity respectively, where `n` is the number of cached cells: current board.occupied_cells + new_ship.cells)
 
 In case of a need to extend and model all the cells of the grid, the hash-map pattern would still serve us well, we might only need to extend our hash-map to also include empty cells and map them to None. Time complexity (local_latency) will remain the same for the shot action but space complexity (local_memory) `O(n)`, `n` in this case, will be the total number of the cells in the grid.  
 
@@ -67,7 +69,7 @@ class Ship:
         self.rear = list(self.cells.keys())[-1]
 ```
 
-At instantiation, each ship will compute and hash-map the cells it is currently occupying,
+For each ship meta-data, the controler will compute and hash-map the cells that the ship is to occupy, while doing so, the controler will also look-up the cells of the ship vs board.occupied_cells to ensure that no ship-dimension overlapping occures.
 if the ship creation passes all validations, we update the `board.occupied_cells` dict with the cells of the new ship, this event is equivelant to the ship spawning on the board.
 
 By that, by the time we have instantiated all ships, our board will have all occupied cells mapped to their ships.  
