@@ -7,7 +7,7 @@ git clone https://github.com/arknfel/battleship.git
 
 ## Summary
 
-The main idea of this implementation is the hash-map attribute `occupied_cells` of class `Board`:
+The main idea that drives this implementation is to utilize the hash-map attribute `occupied_cells` of class `Board`:
 
 ```python
 class Board:
