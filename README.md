@@ -74,7 +74,7 @@ I used flask variable `current_app` to store the board object globaly per flask-
 
 The `session` flask variable can also be used instead or with `current_app` to preserve the board state per sessions and requests regardless of the current flask application instance, since it utilizes cookies as a mean for caching.
 
-We will need to configure a secret key to the flask app: `app.config['SECRET_KEY'] = f'{my_strong_secret}'`  
+We will need to configure a secret key to the flask app: `app.config['SECRET_KEY'] = f'{my_strong_secret}'`,  
 
 serialize the board: `session['board'] = pickle.dumps(board)`, deserialize it: `board = pickle.loads(session['board'])` with each game changing event, and `del session['board']` if the delete-game-method was invoked. 
 
