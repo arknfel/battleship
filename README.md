@@ -24,6 +24,11 @@ class Board:
     def spawn(self, ship):
         self.occupied_cells.update(ship.cells)
         return self
+
+    def dispawn(self, ship):
+        for cell in ship.cells:
+            del self.occupied_cells[cell]
+        return self
 ```
 An instance of class `Board` represents a game instance that keeps track of the game state. Modifying the board instance per event/iteration (depending on the game engine design), will represent the game state as it changes vs time.
 
