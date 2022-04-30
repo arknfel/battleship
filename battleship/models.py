@@ -35,6 +35,11 @@ class Board:
         self.occupied_cells.update(ship.cells)
         return self
 
+    def dispawn(self, ship):
+        for cell in ship.cells:
+            del self.occupied_cells[cell]
+        return self
+
     # def reset(self):
     #     self.occupied_cells.clear()
 

@@ -38,8 +38,6 @@ def shot():
 
         outcome = shoot(coords, board)
 
-        print(outcome)
-
         # session['board'] = pickle.dumps(board)
         return jsonify({"result": f"{outcome}"}), HTTPStatus.OK
 
@@ -55,7 +53,7 @@ def shot():
 @app.route('/battleship', methods=['DELETE'])
 def delete_battleship_game():
 
-    if 'board' in current_app.__dir__():
+    if 'board' in current_app.__dict__:
         del current_app.board
 
         return jsonify('Game Deleted'), HTTPStatus.OK

@@ -42,8 +42,7 @@ def shoot(coords, board):
         
         if target_ship.status == 'SINK':
 
-            for cell in target_ship.cells:
-                del board.occupied_cells[cell]
+            board.dispawn(target_ship)
 
             return 'HIT'
         
@@ -57,9 +56,8 @@ def shoot(coords, board):
             return 'SINK'
         
         else:
-            for cell in target_ship.cells:
-                del board.occupied_cells[cell]
-            
+            board.dispawn(target_ship)
+
             return 'HIT'
 
 
