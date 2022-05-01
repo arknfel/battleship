@@ -41,13 +41,13 @@ def shot():
         # session['board'] = pickle.dumps(board)
         return jsonify({"result": f"{outcome}"}), HTTPStatus.OK
 
-    except KeyError as e:
+    except AttributeError as e:
         print(e)
         return jsonify(f'No game was created'), HTTPStatus.BAD_REQUEST
 
-    except Exception as e:
-        print(e)
-        return jsonify(f'{e}'), HTTPStatus.BAD_REQUEST
+    # except Exception as e:
+    #     print(e)
+    #     return jsonify(f'{e}'), HTTPStatus.BAD_REQUEST
 
 
 @app.route('/battleship', methods=['DELETE'])
