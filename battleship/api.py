@@ -38,22 +38,24 @@ def shot():
 
         outcome = shoot(coords, board)
 
+        print(outcome)
+
         # session['board'] = pickle.dumps(board)
         return jsonify({"result": f"{outcome}"}), HTTPStatus.OK
 
-    except AttributeError as e:
+    except (KeyError, AttributeError) as e:
         print(e)
         return jsonify(f'No game was created'), HTTPStatus.BAD_REQUEST
 
-    # except Exception as e:
-    #     print(e)
-    #     return jsonify(f'{e}'), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        print(e)
+        return jsonify(f'{e}'), HTTPStatus.INTERNAL_SERVER_ERROR
 
 
 @app.route('/battleship', methods=['DELETE'])
 def delete_battleship_game():
 
-    if 'board' in current_app.__dict__:
+    if 'board' in current_app.__dir__():
         del current_app.board
 
         return jsonify('Game Deleted'), HTTPStatus.OK
